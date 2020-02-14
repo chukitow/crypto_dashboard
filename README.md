@@ -1,24 +1,14 @@
-# README
+# Crypto Dashboard
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an small RoR/React application to display crytp currencies in real time
 
-Things you may want to cover:
+## Requirements
+* Ruby 2.6.0
+* Rails ~> 6.0.2
+* Node >= v10.0.0
 
-* Ruby version
+## Installation
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+bundle install
+```
