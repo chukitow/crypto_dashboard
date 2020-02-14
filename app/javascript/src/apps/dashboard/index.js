@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useInterval from '../../hooks/useInterval';
 import axios from 'axios';
-import { isEmpty, last } from 'lodash';
+import { isEmpty, first } from 'lodash';
 import { mapDataToLineChart } from './helpers';
 import LineChartCurrency from '../../shared/line_chart_currency';
 import CurrencyTable from '../../shared/currency_table';
@@ -17,8 +17,8 @@ const Dashboard = () => {
   async function fetchCurrency() {
     const { data } = await axios.get('/api/v1/currency')
     setCurrency({
-      BTC: currency.BTC.concat([{ ...data.BTC, time: new Date().toISOString() }]),
-      ETH: currency.ETH.concat([{ ...data.ETH, time: new Date().toISOString() }])
+      BTC: [{ ...data.BTC, time: new Date().toISOString() }, ...currency.BTC],
+      ETH: [{ ...data.ETH, time: new Date().toISOString() }, ...currency.ETH],
     });
   }
 
@@ -53,7 +53,7 @@ const Dashboard = () => {
           {
             !isEmpty(currency.BTC) &&
             <>
-              <h3>1 BTC = {last(currency.BTC).USD} USD</h3>
+              <h3>1 BTC = {first(currency.BTC).USD} USD</h3>
               <CurrencyTable
                 columns={[
                   { label: 'Time', accessor: 'time' },
@@ -68,7 +68,7 @@ const Dashboard = () => {
           {
             !isEmpty(currency.ETH) &&
             <>
-            <h3>1 ETH = {last(currency.ETH).USD} USD</h3>
+            <h3>1 ETH = {first(currency.ETH).USD} USD</h3>
             <CurrencyTable
               columns={[
                 { label: 'Time', accessor: 'time' },
