@@ -16,6 +16,7 @@ const Dashboard = () => {
   const interval = useRef();
   const [loaded, setLoading] = useState(false);
   const [currency, setCurrency] = useState(INITIAL_STATE);
+  console.log(currency);
 
   async function fetchCurrency() {
     const { data } = await axios.get('/api/v1/currency')
@@ -56,8 +57,8 @@ const Dashboard = () => {
             <div className="col-md-4">
               <CurrencyCalculator
                 rates={currency}
-                currencies={['USD', 'EUR']}
-                cryptos={['BTC', 'ETH']}
+                currencies={['USD']}
+                cryptos={['BTC']}
                 />
             </div>
           </div>
@@ -70,7 +71,7 @@ const Dashboard = () => {
                   <CurrencyTable
                     columns={[
                       { label: 'Time', accessor: 'time' },
-                      { label: 'USD', accessor: 'EUR' },
+                      { label: 'USD', accessor: 'USD' },
                       { label: 'EUR', accessor: 'EUR' },
                     ]}
                     data={currency.BTC}/>
@@ -85,7 +86,7 @@ const Dashboard = () => {
                 <CurrencyTable
                   columns={[
                     { label: 'Time', accessor: 'time' },
-                    { label: 'USD', accessor: 'EUR' },
+                    { label: 'USD', accessor: 'USD' },
                     { label: 'EUR', accessor: 'EUR' },
                     { label: 'BTC', accessor: 'BTC' },
                   ]}

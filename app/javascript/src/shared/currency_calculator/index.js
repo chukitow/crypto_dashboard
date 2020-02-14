@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, useCallback }from 'react';
 import { first } from 'lodash';
 
 const CurrencyCalculator = ({
@@ -14,7 +14,7 @@ const CurrencyCalculator = ({
   useEffect(() => {
     setValues({
       currency: currencyToCrypo(values.currency),
-      currentCrypto: cryptoToCurrency(values.crypto)
+      crytpo: cryptoToCurrency(values.crypto)
     });
   }, [
     currency,
@@ -26,6 +26,7 @@ const CurrencyCalculator = ({
     if(currency) {
       const conversion = currency / currentRate;
       setValues({ currency, crypto: conversion });
+      return currency;
     }
     else {
       setValues({ currency: 0, crypto: 0 });
@@ -37,6 +38,7 @@ const CurrencyCalculator = ({
     if(crypto) {
       const conversion = crypto * currentRate;
       setValues({ currency: conversion, crypto });
+      return crypto;
     }
     else {
       setValues({ currency: 0, crypto: 0 });
