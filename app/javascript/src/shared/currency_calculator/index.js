@@ -9,26 +9,38 @@ const CurrencyCalculator = ({
   const [currency, setCurrency] = useState(first(currencies))
   const [currentCrypto, setCrypto] = useState(first(cryptos))
   const [values, setValues] = useState({ currency: 0, crypto: 1 });
-  const currentRate = first(rates[currentCrypto])[currency];
+  const currentRate = Number(first(rates[currentCrypto])[currency]);
 
   useEffect(() => {
     setValues({
-      currency: calculateConversion(),
-      crypto: 1
+      currency: currencyToCrypo(values.currency),
+      currentCrypto: cryptoToCurrency(values.crypto)
     });
   }, [
     currency,
-    currentCrypto
+    currentCrypto,
+    setValues,
   ]);
 
-  function calculateConversion(amount) {
-    if(amount) {
-      const conversion = amount / currentRate;
-      setValues({ currency: amount, crypto: conversion });
+  function currencyToCrypo(currency) {
+    if(currency) {
+      const conversion = currency / currentRate;
+      setValues({ currency, crypto: conversion });
     }
     else {
       setValues({ currency: 0, crypto: 0 });
       return currentRate;
+    }
+  }
+
+  function cryptoToCurrency(crypto) {
+    if(crypto) {
+      const conversion = crypto * currentRate;
+      setValues({ currency: conversion, crypto });
+    }
+    else {
+      setValues({ currency: 0, crypto: 0 });
+      return 0;
     }
   }
 
@@ -40,14 +52,16 @@ const CurrencyCalculator = ({
           <div className="row">
             <div className="form-group col-6">
               <input
-                onChange={(e) => calculateConversion(Number(e.target.value) || 0)}
+                onChange={(e) => currencyToCrypo(Number(e.target.value) || 0)}
                 value={values.currency}
                 className="form-control"
                 type="text"/>
             </div>
             <div className="form-group col-6">
               <select
-                onChange={(e) => setCurrency(e.target.value)}
+                onChange={(e) => {
+                  setCurrency(e.target.value);
+                }}
                 className="form-control"
                 value={currency}>
                 {currencies.map((currency) => (
@@ -59,14 +73,16 @@ const CurrencyCalculator = ({
           <div className="row">
             <div className="form-group col-6">
               <input
+                onChange={(e) => cryptoToCurrency(Number(e.target.value) || 0)}
                 value={values.crypto}
                 className="form-control"
-                type="text"
-                disabled/>
+                type="text"/>
             </div>
             <div className="form-group col-6">
               <select
-                onChange={(e) => setCrypto(e.target.value)}
+                onChange={(e) => {
+                  setCrypto(e.target.value);
+                }}
                 value={currentCrypto}
                 className="form-control">
                 {cryptos.map((crypto) => (
